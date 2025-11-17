@@ -1,0 +1,26 @@
+@startuml DEstados
+
+[*] --> Criado : cliente.solicitarPedido()
+
+Criado --> EmAnalise : agente.analisarPedido()
+EmAnalise --> Aprovado : agente.aprovarFinanciamento()
+EmAnalise --> Reprovado : agente.rejeitarFinanciamento()
+
+Aprovado --> ContratoGerado : sistema.gerarContrato()
+
+Criado --> Cancelado : cliente.cancelarPedido()
+EmAnalise --> Cancelado : cliente.cancelarPedido()
+Aprovado --> Cancelado : cliente.cancelarPedido()
+
+ContratoGerado --> [*]
+Reprovado --> [*]
+Cancelado --> [*]
+
+state Criado
+state EmAnalise
+state Aprovado
+state Reprovado
+state ContratoGerado
+state Cancelado
+
+@enduml

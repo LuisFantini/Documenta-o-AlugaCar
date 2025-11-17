@@ -1,0 +1,23 @@
+@startuml DSAnalisarPedido
+actor Agente
+
+Agente -> Agente : analisarPedido(idPedido)
+Agente -> Pedido : entrar()
+Pedido --> Agente : dadosPedido
+
+alt Aprovar pedido
+    Agente -> Agente : aprovarFinanciamento(idPedido)
+    Agente -> Contrato : registrarContrato()
+    Contrato -> ContratoCredito : aprovarCredito()
+    ContratoCredito -> Banco : aprovarCredito()
+    Banco --> ContratoCredito : creditoAprovado
+    ContratoCredito --> Contrato : creditoRegistrado
+else Rejeitar pedido
+    Agente -> Agente : rejeitarFinanciamento(idPedido)
+    Pedido -> Pedido : cancelar()
+end
+
+Agente -> Pedido : modificar()
+Pedido --> Agente : confirmacao
+
+@enduml

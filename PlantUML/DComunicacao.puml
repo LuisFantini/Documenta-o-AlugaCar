@@ -1,0 +1,37 @@
+@startuml DComunicacao
+' Communication Diagram (Collaboration)
+' Funcionalidade: Criar Pedido de Aluguel
+
+skinparam sequenceMessageAlign center
+
+object Cliente
+object Controller
+object PedidoService
+object AutomovelService
+object PedidoRepository
+object AutomovelRepository
+object MySQL
+
+' Criar Pedido de Aluguel
+Cliente -> Controller : 1: POST /pedidos (dados)
+Controller -> PedidoService : 2: criarPedido(dados)
+
+' 3. Validação do Automóvel (Colaboração com outro Service)
+PedidoService -> AutomovelService : 3: verificarDisponibilidade(idAuto)
+AutomovelService -> AutomovelRepository : 4: buscarAutomovel(idAuto)
+AutomovelRepository -> MySQL : 5: SELECT * FROM Automovel
+MySQL --> AutomovelRepository : 6: resultado(ObjAutomovel)
+AutomovelRepository --> AutomovelService : 7: retorna ObjAutomovel
+AutomovelService --> PedidoService : 8: disponivel()
+
+' 9. Persistência do Pedido
+PedidoService -> PedidoRepository : 9: salvarPedido(ObjPedido)
+PedidoRepository -> MySQL : 10: INSERT INTO Pedido (...)
+MySQL --> PedidoRepository : 11: OK
+PedidoRepository --> PedidoService : 12: retorna Pedido Criado
+
+' 13. Retorno do Sucesso
+PedidoService --> Controller : 13: OK (ObjPedido)
+Controller --> Cliente : 14: HTTP 201 Created (Pedido)
+
+@enduml

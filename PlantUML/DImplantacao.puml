@@ -1,0 +1,28 @@
+@startuml DImplantacao
+skinparam node {
+  BackgroundColor #EFEFEF
+  BorderColor black
+}
+
+node "Máquina do Usuário\n(Cliente/Agente)" {
+    component "Navegador Web\n(Frontend)" as web
+}
+
+node "Servidor da Aplicação\n(Spring Boot API)" {
+    node "Backend" {
+        component "Controllers"
+        component "Services"
+        component "Repositories"
+    }
+}
+
+node "Servidor de Banco de Dados\n(MySQL)" {
+    database "MySQL"
+}
+
+web --> Controllers : Requisições HTTP/HTTPS (JSON)
+Controllers --> Services
+Services --> Repositories
+Repositories --> MySQL : JDBC/JPA
+
+@enduml

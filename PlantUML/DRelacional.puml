@@ -1,0 +1,79 @@
+@startuml DRelacional
+!define table(x) class x << (T,#FFAAAA) >>
+hide methods
+hide stereotypes
+
+table(Usuario) {
+  idUsuario INT PK
+  nome VARCHAR
+  cpf VARCHAR
+  rg VARCHAR
+  endereco VARCHAR
+  senha VARCHAR
+}
+
+table(Cliente) {
+  idCliente INT PK, FK -> Usuario.idUsuario
+}
+
+table(Agente) {
+  idAgente INT PK, FK -> Usuario.idUsuario
+}
+
+table(Rendimento) {
+  idRendimento INT PK
+  valor DOUBLE
+  entidadeEmpregadora VARCHAR
+  matricula VARCHAR
+  idCliente INT FK -> Cliente.idCliente
+}
+
+table(Automovel) {
+  idAutomovel INT PK
+  placa VARCHAR
+  modelo VARCHAR
+  ano INT
+  marca VARCHAR
+  situacao VARCHAR
+  disponibilidade BOOLEAN
+}
+
+table(Pedido) {
+  idPedido INT PK
+  data VARCHAR
+  status VARCHAR
+  idCliente INT FK -> Cliente.idCliente
+  idAutomovel INT FK -> Automovel.idAutomovel
+  idContrato INT FK -> Contrato.idContrato
+}
+
+table(Contrato) {
+  idContrato INT PK
+  dataInicio VARCHAR
+  dataFim VARCHAR
+  idAgente INT FK -> Agente.idAgente
+}
+
+table(Banco) {
+  idBanco INT PK
+  nome VARCHAR
+}
+
+table(ContratoCredito) {
+  idContratoCredito INT PK
+  valor DOUBLE
+  idBanco INT FK -> Banco.idBanco
+  idContrato INT FK -> Contrato.idContrato
+}
+
+Usuario ||--|| Cliente
+Usuario ||--|| Agente
+Cliente ||--o{ Rendimento
+Cliente ||--o{ Pedido
+Automovel ||--o{ Pedido
+Contrato ||--|| Pedido
+Agente ||--o{ Contrato
+Banco ||--o{ ContratoCredito
+Contrato ||--|| ContratoCredito
+
+@enduml

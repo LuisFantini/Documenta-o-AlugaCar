@@ -1,0 +1,37 @@
+@startuml DComponentes
+skinparam componentStyle rectangle
+skinparam rectangle {
+  BackgroundColor #F9F9F9
+  BorderColor black
+}
+
+package "Frontend" {
+  [Interface Web] <<component>> 
+}
+
+package "Backend - Spring Boot API" {
+
+  [Controllers] <<component>>
+  [Services] <<component>>
+  [Repositories] <<component>>
+  [DTOs] <<component>>
+  [Models] <<component>>
+  [Exception Handler] <<component>>
+}
+
+package "Banco de Dados" {
+  database "MySQL" as mysql
+}
+
+[Interface Web] --> [Controllers] : HTTP/JSON
+[Controllers] --> [Services]
+[Services] --> [Repositories]
+[Controllers] --> [DTOs]
+[Services] --> [DTOs]
+[Repositories] --> [Models]
+[Services] --> [Models]
+[Controllers] --> [Exception Handler]
+[Services] --> [Exception Handler]
+[Repositories] --> mysql : JPA/Hibernate
+
+@enduml

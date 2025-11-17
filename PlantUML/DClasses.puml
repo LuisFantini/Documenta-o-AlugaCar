@@ -1,0 +1,114 @@
+@startuml DClasses
+skinparam classAttributeIconSize 0
+
+' ==== CLASSES ====
+
+abstract class Usuario {
+  - idUsuario: int
+  - nome: String
+  - cpf: String
+  - rg: String
+  - endereco: String
+  - senha: String
+
+  + cadastrar(): void
+  + logar(): void
+  + logout(): void
+}
+
+class Cliente {
+  - rendimentos: List<Rendimento>
+
+  + pedirFinanciamento(): void
+  + visualizarPedido(idPedido): void
+  + solicitarPedido(idAutomovel): void
+  + modificarPedido(idPedido): void
+  + cancelarPedido(idPedido): void
+}
+
+class Agente {
+  + analisarPedido(idPedido): void
+  + aprovarFinanciamento(idPedido): void
+  + rejeitarFinanciamento(idPedido): void
+  + modificarPedido(idPedido): void
+  + emitirPedido(idPedido): void
+}
+
+class Rendimento {
+  - valor: double
+  - entidadeEmpregadora: String
+  - matricula: String
+
+  + calcularRendimento(): void
+}
+
+class Automovel {
+  - idAutomovel: int
+  - placa: String
+  - modelo: String
+  - ano: int
+  - marca: String
+  - situacao: String
+  - disponibilidade: boolean
+
+  + registrar(marca): void
+  + avaliar(idAutomovel): void
+  + calcularDesconto(idade): boolean
+}
+
+class Pedido {
+  - idPedido: int
+  - data: String
+  - status: String
+  - idContrato: int
+
+  + entrar(): void
+  + modificar(): void
+  + cancelar(): void
+}
+
+class Contrato {
+  - idContrato: int
+  - dataInicio: String
+  - dataFim: String
+
+  + registrarContrato(): void
+  + encerrarContrato(): void
+}
+
+class Banco {
+  - idBanco: int
+  - nome: String
+
+  + depositar(valor): void
+  + aprovarCredito(): void
+  + negarCredito(): void
+}
+
+class ContratoCredito {
+  - idContratoCredito: int
+  - valor: double
+
+  + aprovarCredito(): void
+  + negarCredito(): void
+}
+
+' ==== HERANÇA ====
+
+Usuario <|-- Cliente
+Usuario <|-- Agente
+
+' ==== ASSOCIAÇÕES ====
+
+Cliente "1" --> "1..*" Rendimento
+Cliente "1" --> "1..*" Pedido
+
+Pedido "1" --> "1" Automovel
+Pedido "1" --> "1" Contrato
+
+Contrato "1" --> "1" ContratoCredito
+ContratoCredito "1" --> "1" Banco
+
+Agente "1" --> "1..*" Contrato
+
+@enduml

@@ -1,0 +1,18 @@
+@startuml DSFazerPedido
+actor Cliente
+Cliente -> Cliente : visualizarPedido(idPedido)
+Cliente -> Pedido : entrar()
+
+Cliente -> Cliente : modificarPedido(idPedido)
+Cliente -> Pedido : modificar()
+Pedido -> Automovel : avaliar(idAutomovel)
+Automovel --> Pedido : avaliacao
+
+alt Cliente deseja cancelar
+    Cliente -> Cliente : cancelarPedido(idPedido)
+    Cliente -> Pedido : cancelar()
+end
+
+Pedido --> Cliente : retornoOperacao
+
+@enduml

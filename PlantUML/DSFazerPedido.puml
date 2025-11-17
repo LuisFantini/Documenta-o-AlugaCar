@@ -1,0 +1,24 @@
+@startuml DSequenciaFazerPedido
+actor Cliente
+
+Cliente -> Cliente : solicitarPedido(idAutomovel)
+Cliente -> Pedido : criar(idPedido, data, status)
+Pedido -> Automovel : verificarDisponibilidade()
+Automovel --> Pedido : disponibilidade
+
+alt Automóvel disponível
+    Pedido -> Contrato : criarContrato()
+    Contrato -> Agente : emitirPedido(idPedido)
+    Agente --> Contrato : pedidoEmitido
+
+    Contrato -> ContratoCredito : gerarContratoCredito()
+    ContratoCredito -> Banco : aprovarCredito()
+    Banco --> ContratoCredito : creditoAprovado
+
+    ContratoCredito --> Contrato : registrarCredito()
+    Contrato --> Pedido : registrarContrato()
+end
+
+Pedido --> Cliente : pedidoConfirmado
+
+@enduml

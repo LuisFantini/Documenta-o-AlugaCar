@@ -1,0 +1,21 @@
+@startuml ArquiteturaUML
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(cliente, "Cliente", "Interage via navegador.")
+Person(agente, "Agente", "Acessa o painel administrativo.")
+Person(banco, "Banco", "Processa pedidos de crédito.")
+
+System_Boundary(alugacar, "AlugaCar") {
+
+    Container(frontend, "Frontend Web", "HTML, CSS, JS", "Interface visual acessada pelo navegador.")
+    Container(api, "API Spring Boot", "Java + Spring", "Camada de lógica de negócio. Expõe endpoints REST.")
+    ContainerDb(mysql, "MySQL", "SGBD Relacional", "Armazena todos os dados do sistema.")
+}
+
+cliente --> frontend : Acessa via navegador
+agente --> frontend : Acessa painel administrativo
+frontend --> api : HTTP/REST (JSON)
+api --> mysql : JDBC/Hibernate
+api --> banco : Solicita aprovação de crédito
+
+@enduml
