@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+skinparam actorStyle "stickman"
+skinparam packageStyle rectangle
+skinparam usecase {
+    BackgroundColor #FFFFFF
+    BorderColor #000000
+}
+
+actor Cliente
+actor Usuario
+actor Agente
+actor Banco
+
+rectangle "Sistema AlugaCar" {
+
+    (Cadastrar-se) as UC01
+    (Efetuar login) as UC02
+
+    (Fazer pedido) as UC03
+    (Gerenciar pedido) as UC04
+
+    (Associar crédito) as UC05
+    (Gerenciar pedido) as UC06Agente
+
+    Usuario --> UC01
+    Usuario --> UC02
+
+    Cliente --> UC03
+    Cliente --> UC04
+
+    UC03 --> UC06Agente : <<include>>
+
+    Banco --> UC05
+    Agente --> UC06Agente
+}
+
+@enduml
