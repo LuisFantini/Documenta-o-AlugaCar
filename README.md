@@ -45,11 +45,9 @@ Diagrama de Componentes
 
 Diagrama de Implantação (Deployment)
 
-Arquitetura em C4 Model (Nível 1, 2 e 3)
+Arquitetura em C4 Model (Nível 2)
 
 🔹 Modelagem de Dados
-
-DER (Diagrama Entidade-Relacionamento)
 
 Modelo Relacional (Tabelas, PK e FK)
 
